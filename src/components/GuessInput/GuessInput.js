@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
 
-function GuessInput({ onSubmitGuess }) {
+function GuessInput({ onSubmitGuess, gameStatus }) {
   const [guess, setGuess] = useState('');
 
   function handleSubmit(e) {
     e.preventDefault();
+
+    // Don't submit if the game is over
+    if (gameStatus !== 'running') {
+      return;
+    }
+
     console.log({ guess });
     onSubmitGuess(guess);
     setGuess('');
@@ -21,6 +27,7 @@ function GuessInput({ onSubmitGuess }) {
         pattern="[A-Z]{5}"
         minLength={5}
         maxLength={5}
+        disabled={gameStatus !== 'running'}
       />
     </form>
   );
